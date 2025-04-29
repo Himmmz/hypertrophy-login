@@ -6,13 +6,8 @@
 
   <!-- Firebase SDKs -->
   <script type="module">
-    // Initialize Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCqYbB95seTzugE2JQrow1OxfCrjd_E17c",
@@ -28,7 +23,6 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Expose login globally
     window.login = function() {
       signInWithPopup(auth, provider)
         .then((result) => result.user.getIdToken())
@@ -43,28 +37,59 @@
   </script>
 
   <style>
+    /* full-page gradient background */
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #A8E6CF 0%, #DCECC9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    /* centered card */
+    .login-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       text-align: center;
-      margin-top: 100px;
+      width: 320px;
     }
-    button {
-      font-size: 18px;
-      padding: 10px 20px;
-      background-color: #4285F4;
-      color: white;
+    /* logo */
+    .login-card img {
+      width: 120px;
+      margin-bottom: 1rem;
+    }
+    /* heading */
+    .login-card h2 {
+      margin: 0 0 1.5rem;
+      color: #333;
+      font-size: 1.25rem;
+    }
+    /* login button */
+    .login-card button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: #A8E6CF;
+      color: #fff;
       border: none;
-      border-radius: 5px;
+      border-radius: 0.75rem;
       cursor: pointer;
+      transition: background-color 0.2s ease;
     }
-    button:hover {
-      background-color: #3367D6;
+    .login-card button:hover {
+      background-color: #85D1A1;
     }
   </style>
-
 </head>
+
 <body>
-  <h2>Login with Google to use Hypertrophy Logger</h2>
-  <button onclick="login()">Login with Google</button>
+  <div class="login-card">
+    <img src="https://raw.githubusercontent.com/Himmmz/hypertrophy-login/refs/heads/main/icon-5.png" alt="Hypertrophy Logger Logo" />
+    <h2>Login with Google</h2>
+    <button onclick="login()">Sign in with Google</button>
+  </div>
 </body>
 </html>
