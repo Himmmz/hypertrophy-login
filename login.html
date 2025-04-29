@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login to Hypertrophy Logger</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+</head>
+<body>
+  <h2>Login with Google to use Hypertrophy Logger</h2>
+  <button onclick="login()">Login with Google</button>
+
+  <script type="module">
+    // Firebase config (replace with your own only if you rotate keys later)
+    const firebaseConfig = {
+      apiKey: "AIzaSyA93YZHrTe0X6E-Lcr3fwET4SoXshbCNiE",
+      authDomain: "hypertrophylogger-ec460.firebaseapp.com",
+      projectId: "hypertrophylogger-ec460",
+      storageBucket: "hypertrophylogger-ec460.appspot.com",
+      messagingSenderId: "586113627577",
+      appId: "1:586113627577:web:cc2953b19bc6c4bb34a3e4"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => result.user.getIdToken())
+        .then(token => {
+          // Redirect to your Streamlit app with the token in the URL
+          window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
