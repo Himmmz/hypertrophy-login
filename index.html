@@ -3,46 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login to Hypertrophy Logger</title>
-  <!-- Load only the modules we need -->
   <script type="module">
-    // 1) Import the functions you need from the Firebase SDKs
+    // Correct imports from CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    // 2) Your Firebase configuration with the correct API key
+    // Correct firebaseConfig
     const firebaseConfig = {
-      apiKey: "AIzaSyCqYbB95seTzugE2JQrow1OxfCrjd_E17c",  // Updated API key
+      apiKey: "AIzaSyCqYbB95seTzugE2JQrow1OxfCrjd_E17c",
       authDomain: "hypertrophylogger-ec460.firebaseapp.com",
       projectId: "hypertrophylogger-ec460",
-      storageBucket: "hypertrophylogger-ec460.appspot.com",
-      messagingSenderId: "586113627577",
-      appId: "1:586113627577:web:cc2953b19bc6c4bb34a3e4"
+      storageBucket: "hypertrophylogger-ec460.appspot.com", <!-- fixed -->
+      messagingSenderId: "1033995007500",
+      appId: "1:1033995007500:web:6e65757e6fdbada5a56029",
+      measurementId: "G-CZ407RXPC9"
     };
 
-    // 3) Initialize Firebase and Auth
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // 4) Expose a global login() function for the button
+    // Expose login function
     window.login = () => {
-      console.log("Login initiated...");
       signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log("Login successful!");
-          return result.user.getIdToken();
-        })
+        .then((result) => result.user.getIdToken())
         .then((token) => {
-          console.log("Token retrieved:", token);
-          // Redirect to your Streamlit app with the token
+          console.log("Token:", token);
           window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
         })
         .catch((error) => {
-          console.error("Login failed: ", error);
+          console.error("Login failed:", error);
           alert("Login failed: " + error.message);
         });
     };
@@ -50,7 +41,6 @@
 </head>
 <body>
   <h2>Login with Google to use Hypertrophy Logger</h2>
-  <!-- This calls the window.login() above -->
   <button onclick="login()">Login with Google</button>
 </body>
 </html>
