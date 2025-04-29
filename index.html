@@ -3,41 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login to Hypertrophy Logger</title>
+  
   <script type="module">
-    // Correct imports from CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    // Correct firebaseConfig
     const firebaseConfig = {
       apiKey: "AIzaSyCqYbB95seTzugE2JQrow1OxfCrjd_E17c",
       authDomain: "hypertrophylogger-ec460.firebaseapp.com",
       projectId: "hypertrophylogger-ec460",
-      storageBucket: "hypertrophylogger-ec460.appspot.com", <!-- fixed -->
+      storageBucket: "hypertrophylogger-ec460.appspot.com",
       messagingSenderId: "1033995007500",
       appId: "1:1033995007500:web:6e65757e6fdbada5a56029",
       measurementId: "G-CZ407RXPC9"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Expose login function
     window.login = () => {
       signInWithPopup(auth, provider)
         .then((result) => result.user.getIdToken())
         .then((token) => {
-          console.log("Token:", token);
+          // Redirect to Streamlit app with token
           window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
         })
         .catch((error) => {
-          console.error("Login failed:", error);
           alert("Login failed: " + error.message);
+          console.error(error);
         });
     };
   </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3367D6;
+    }
+  </style>
+
 </head>
 <body>
   <h2>Login with Google to use Hypertrophy Logger</h2>
