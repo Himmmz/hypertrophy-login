@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login to Hypertrophy Logger</title>
-  <!-- Load only the modules we need -->
   <script type="module">
-    // 1) Import the functions you need from the Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import {
       getAuth,
       GoogleAuthProvider,
-      signInWithPopup
+      signInWithRedirect,
+      getRedirectResult
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    // 2) Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyA93YZHrTe0X6E-Lcr3fwET4SoXshbCNiE",
       authDomain: "hypertrophylogger-ec460.firebaseapp.com",
@@ -23,34 +21,31 @@
       appId: "1:586113627577:web:cc2953b19bc6c4bb34a3e4"
     };
 
-    // 3) Initialize Firebase and Auth
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // 4) Expose a global login() function for the button
     window.login = () => {
-      console.log("Login initiated...");
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log("Login successful!");
-          return result.user.getIdToken();
-        })
-        .then((token) => {
-          console.log("Token retrieved:", token);
-          // Redirect to your Streamlit app with the token
-          window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
-        })
-        .catch((error) => {
-          console.error("Login failed: ", error);
-          alert("Login failed: " + error.message);
-        });
+      signInWithRedirect(auth, provider);
     };
+
+    // This handles the redirect result after authentication
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          result.user.getIdToken().then((token) => {
+            window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Login failed: ", error);
+        alert("Login failed: " + error.message);
+      });
   </script>
 </head>
 <body>
   <h2>Login with Google to use Hypertrophy Logger</h2>
-  <!-- This calls the window.login() above -->
   <button onclick="login()">Login with Google</button>
 </body>
 </html>
