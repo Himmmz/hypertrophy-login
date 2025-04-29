@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Login to Hypertrophy Logger</title>
-  
+
+  <!-- Firebase SDKs -->
   <script type="module">
+    // Initialize Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import {
       getAuth,
@@ -26,11 +28,11 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    window.login = () => {
+    // Expose login globally
+    window.login = function() {
       signInWithPopup(auth, provider)
         .then((result) => result.user.getIdToken())
         .then((token) => {
-          // Redirect to Streamlit app with token
           window.location.href = `https://hypertrophylogger-himzz.streamlit.app/?token=${token}`;
         })
         .catch((error) => {
